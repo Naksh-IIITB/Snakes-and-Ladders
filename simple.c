@@ -121,6 +121,18 @@ int load_game(Player players[], int *np, Snake snakes[], Ladder ladders[], int *
 // Game loop
 int main(){
     srand(time(NULL));
+    int choice;
+    int currentturn = 0;
+    printf("FOR NEW GAME PRESS 1 ELSE PRESS 2 TO RESUME:");
+    scanf("%d",&choice);
+    if (choice == 2){
+        if (load_game(players, &np, snakes, ladders, &currenttrun) == 0){
+            i = currentturn;
+        }
+        else{
+            printf("STARTING NEW GAME...\n");
+        }
+    }
     int np;
     printf("Enter number of players: ");
     scanf("%d", &np);
@@ -133,8 +145,10 @@ int main(){
     while(1){
         Player *player_pointer = &players[i%np];
         while (getchar() != '\n');  // clear leftover input from previous scanf
+        printf("PRESS ENTER TO ROLL:");
         getchar();
         int pos = roll_and_move(player_pointer, snakes, ladders);
+        save_game(players,np,snakes,ladders,i);
         if (pos == (SIZE*SIZE)){
             printf("Player %s wins!!\n", players[i%np].name);
             break;
